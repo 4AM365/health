@@ -1,0 +1,22 @@
+Test Name,Value,Unit,Normal Range
+Auto WBC,8.1,x10E3/uL,3.4 - 10.8
+Hemoglobin,14.9,g/dL,13.0 - 17.7
+RBC,5.11,x10E6/uL,4.14 - 5.80
+Hematocrit,44.4,%,37.5 - 51.0
+MCV,87,fL,79 - 97
+MCHC,33.6,g/dL,31.5 - 35.7
+MCH,29.2,pg,26.6 - 33.0
+RDW,12.7,%,11.6 - 15.4
+Platelets,311,x10E3/uL,150 - 450
+Lymphocytes Relative,27,%,Not Estab.
+Eosinophils Relative,3,%,Not Estab.
+Neutrophils Absolute,5.1,x10E3/uL,1.4 - 7.0
+Monocytes Absolute,0.5,x10E3/uL,0.1 - 0.9
+Basophils Absolute,0.0,x10E3/uL,0.0 - 0.2
+Immature Grans Absolute,0.0,x10E3/uL,0.0 - 0.1
+Neutrophils Relative,63,%,Not Estab.
+Monocytes Relative,7,%,Not Estab.
+Basophils Relative,0,%,Not Estab.
+Lymphocytes Absolute,2.1,x10E3/uL,0.7 - 3.1
+Eosinophils Absolute,0.2,x10E3/uL,0.0 - 0.4
+Immature Granulocytes,0,%,Not Estab.

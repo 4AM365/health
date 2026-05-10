@@ -1,0 +1,8 @@
+Promethease
+Version 0.1.166
+Analyzed wc05302024.txt <br>infiles /tmp/tmpD33HWM
+On 2025-11-26 17:11:15.388263 UTC
+Found 59060 SNPedia genos
+
+promethease.html is the report. We're starting hear reports that some (browsers? OSs?) no longer allow double clicking on promethease.html to open the report. That will open the browser, but shows a blank page. If that happens to you, use File->Open to navigate to, then open, promethease.html
+

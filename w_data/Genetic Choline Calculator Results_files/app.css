@@ -1,0 +1,221 @@
+/* * CW's extra CSS begins here */
+ @font-face {
+     font-family: 'enjoytheride-regular';
+     src: url('https://download.documentkit.io/cmj/enjoytheride-regular-webfont.woff2') format('woff2'), url('https://download.documentkit.io/cmj/enjoytheride-regular-webfont.woff') format('woff');
+     font-weight: normal;
+     font-style: normal;
+}
+ body {
+     font-family: Lato, 'Helvetica Neue', Arial, sans-serif;
+     background-color: #FFF;
+     overflow-y: scroll; /* forces scrollbar to show, page won't jump */
+}
+ p {
+     font-size:12pt;
+     line-height: 125%;
+}
+ p.ingress {
+     font-size:14pt;
+}
+ a {
+    color: #02465D
+}
+ li {
+    font-size:10pt
+}
+ h1 {
+     text-align: center;
+     font-size:36pt;
+}
+ ul {
+    list-style-type: square;
+}
+ h2 {
+     font-size:24pt;
+     font-family: 'enjoytheride-regular';
+     text-align: left;
+}
+ h3 {
+     text-align: left;
+     font-size:20pt;
+     font-family: 'enjoytheride-regular';
+}
+ h4 {
+     text-align: left;
+     font-size:18pt;
+     margin-bottom: 0;
+}
+ h5 {
+     text-align: left;
+     font-size:12pt;
+     margin-top: 10pt;
+     margin-bottom: 4pt;
+}
+ #mytable{
+    /*border: solid 0.4px;
+    */
+    /*border-color: grey;
+    */
+     margin-top: 20px;
+     border-collapse: collapse;
+     caption-side:bottom;
+}
+ #mytable caption{
+     font-size:7.5pt;
+     text-align:left;
+}
+ #mytable th, #mytable td{
+     border: solid 1px;
+     border-color: silver;
+}
+ #mytable td:nth-child(4){
+     font-weight: bold;
+}
+ #mytable td:nth-child(3), #mytable td:nth-child(6){
+     text-align: center;
+}
+ .colored{
+     background-color: #E6E6E6;
+}
+ .result_yellow{
+     background-color: #ddbd00;
+}
+ .result_green{
+     color: #008000;
+     background-color: white;
+     font-weight: bold;
+}
+ .result_red{
+    color: white;
+     background-color: #8b0000;
+}
+ .red {
+     color: #8b0000;
+}
+ .yellow {
+     color: #ddbd00;
+}
+ .green {
+     color: #008000;
+}
+ .primary {
+     color: #8b0000;
+}
+ .secondary {
+     color: #F37A22;
+}
+ .heading{
+     text-align: center;
+     font-size:18pt;
+}
+ .underline {
+     text-decoration: underline;
+}
+ .protocol_sub {
+     font-style: italic ;
+}
+ blockquote {
+     font-size:10pt;
+     margin-top: 10px;
+     margin-bottom: 10px;
+     margin-left: 25px;
+     padding-left: 15px;
+     padding-right: 15px;
+     border-left: 3px solid #ccc;
+     border-right: 3px solid #ccc;
+     border-top: 3px solid #ccc;
+     border-bottom: 3px solid #ccc;
+}
+ #mylist li{
+     margin-left: -20px;
+}
+ section {
+     page-break-inside: avoid;
+}
+ ul.no-bullet {
+     list-style-type: none;
+}
+ #navig {
+    font-size:24px;
+     line-height:200%
+}
+ th,.rs {
+     width:175px;
+     text-align:left;
+     height:21px;
+}
+ th,.call {
+     width:50px;
+}
+ th,.risk_allele {
+     width:130px;
+}
+ th,.gene {
+     width:150px;
+     text-align:left;
+}
+ th,.variation {
+     width:230px;
+}
+ th,.result {
+     width:50px;
+     background-color:#E6E6E6;
+}
+ table a{
+     text-decoration:underline;
+}
+ link {
+    color:inherit
+}
+ h1.uppercase {
+     text-transform: uppercase;
+}
+ h1.lowercase {
+     text-transform: lowercase;
+}
+ h1.capitalize {
+     text-transform: capitalize;
+}
+ h2.uppercase {
+     text-transform: uppercase;
+}
+ h2.lowercase {
+     text-transform: lowercase;
+}
+ h2.capitalize {
+     text-transform: capitalize;
+}
+ h3.uppercase {
+     text-transform: uppercase;
+}
+ h3.lowercase {
+     text-transform: lowercase;
+}
+ h3.capitalize {
+     text-transform: capitalize;
+}
+ h3.break {
+     page-break-before: always 
+}
+ h4.uppercase {
+     text-transform: uppercase;
+}
+ h4.lowercase {
+     text-transform: lowercase;
+}
+ h4.capitalize {
+     text-transform: capitalize;
+}
+ h4.break {
+    page-break-before: always
+}
+
+.tabs-x .nav-item {
+  font-size: 12pt;
+}
+
+.container-sm {
+  width: 100%;
+  max-width: 650px;
+}
+ 
