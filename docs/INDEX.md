@@ -1,5 +1,6 @@
 # docs/ — Index
 
+- [VISION.md](VISION.md) — *(architect, 2026-05-16)* distinctive angle, competitive scan, proposed additions (risk agent, calculators plugin, narrative view)
 - [ORCHESTRATION.md](ORCHESTRATION.md) — agent domains, software structure, critical path
 - [WORKFLOW.md](WORKFLOW.md) — git policy: branch per agent, push always, never auto-merge master, post-rewrite reset protocol
 - [SCHEMA.md](SCHEMA.md) — *(written by Schema agent)* table contracts every other agent reads
