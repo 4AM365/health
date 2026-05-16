@@ -1,0 +1,13 @@
+# Private / sensitive data — never commit.
+# private/ holds pedigree with living minors and other non-consenting third parties.
+# analysis/ holds derived artifacts (health.db, exports, generated reports).
+private/
+analysis/
+*.db
+*.sqlite
+*.sqlite3
+
+# Editor / OS noise
+.DS_Store
+Thumbs.db
+*.swp
