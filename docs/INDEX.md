@@ -1,7 +1,12 @@
 # docs/ — Index
 
 - [ORCHESTRATION.md](ORCHESTRATION.md) — agent domains, software structure, critical path
+- [WORKFLOW.md](WORKFLOW.md) — git policy: branch per agent, push always, never auto-merge master, post-rewrite reset protocol
 - [SCHEMA.md](SCHEMA.md) — *(written by Schema agent)* table contracts every other agent reads
 - [CROSS_AGENT_NOTES.md](CROSS_AGENT_NOTES.md) — *(append-only)* out-of-lane observations agents make about other domains
 
-Root-level reference: [`AGENTS.md`](../AGENTS.md) — registry every agent reads on startup.
+Root-level references:
+- [`CLAUDE.md`](../CLAUDE.md) — cross-cutting behavioral rules every agent inherits
+- [`AGENTS.md`](../AGENTS.md) — registry every agent reads on startup
+
+**Doc placement rule:** new docs default to `docs/`. Only files that must be at root for tooling or protocol reasons stay there: `CLAUDE.md` (auto-loaded), `AGENTS.md` (cross-branch registry), `README.md` (convention).
