@@ -1,0 +1,16 @@
+# Caffeine tolerance per CYP1A2 rs762551.
+# rs762551 A allele = fast metabolizer; C allele = slow metabolizer.
+# Slow metabolizers have higher cardiovascular event risk from high caffeine
+# intake — the *target* here is an UPPER BOUND not a recommendation.
+#
+# Base 400 mg/day (FDA guidance for healthy adults).
+# Each C allele reduces the safe ceiling by 100 mg.
+# A C/C genotype (slow/slow) caps at 200 mg.
+
+nutrient: caffeine_mg_ceiling
+base_rdi: 400
+snps:
+  - rsid: rs762551      # CYP1A2 — A=fast, C=slow
+    effect_allele: C
+    increment_mg: -100  # negative: each C allele lowers the ceiling
+output_field: caffeine_ceiling_mg
