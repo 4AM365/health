@@ -8,6 +8,7 @@
 - [LLM_INTERFACE.md](LLM_INTERFACE.md) — Claude integration in the dashboard: tool surface, privacy filter, prompt strategy
 - [UI_STRUCTURE.md](UI_STRUCTURE.md) — Streamlit layout (left rail / main / chat rail), pages, components
 - [USER_FLOW.md](USER_FLOW.md) — happy-path session walkthrough + 11 wargamed adversarial scenarios
+- [SYNTHESIS.md](SYNTHESIS.md) — *the why layer above UI/LLM:* 8 cross-data synthesis principles + 7 reusable analytical patterns + anti-patterns + code map
 
 Root-level references:
 - [`CLAUDE.md`](../CLAUDE.md) — cross-cutting behavioral rules every agent inherits
