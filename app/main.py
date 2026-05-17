@@ -1,9 +1,12 @@
 """
-Health Repo Explorer — minimal Streamlit interface.
+Health Repo Explorer — Streamlit interface.
 
-Shows what the orchestration scaffolding has produced so far:
-docs, salvaged scripts, data inventory, and live runs of the three
-genome/pedigree scripts against the actual data on this machine.
+Pages:
+- Synthesis (Home): cross-domain narrative from health.db (or documented fallback).
+- Overview: docs / scripts / data inventory while ingests are still landing.
+- GEDCOM Stats: live run of scripts/gedcom_stats.py.
+- SNP Panel: live run of scripts/snp_panel.py.
+- Ancestor Verification: cached WikiTree cross-check report.
 
 Run: streamlit run app/main.py
 """
@@ -19,6 +22,11 @@ from pathlib import Path
 import streamlit as st
 
 ROOT = Path(__file__).parent.parent
+# Make the `app` package importable when streamlit runs this file directly.
+sys.path.insert(0, str(ROOT))
+
+from app import synthesis_data  # noqa: E402
+from app.views import synthesis as synthesis_view  # noqa: E402
 
 st.set_page_config(page_title="Health Repo Explorer", layout="wide")
 
@@ -35,16 +43,35 @@ def run_script(*args: str, timeout: int = 120) -> tuple[str, str, int]:
     return result.stdout, result.stderr, result.returncode
 
 
+# --------------------------------------------------------------------- sidebar
+
 page = st.sidebar.radio(
     "View",
-    ["Overview", "GEDCOM Stats", "SNP Panel", "Ancestor Verification"],
+    [
+        "Synthesis",
+        "Overview",
+        "GEDCOM Stats",
+        "SNP Panel",
+        "Ancestor Verification",
+    ],
 )
 st.sidebar.markdown("---")
 st.sidebar.caption("Read-only view of work on master.")
 
+# --------------------------------------------------------------------- Synthesis
+
+if page == "Synthesis":
+    data = synthesis_data.load()
+    if data.source != "db":
+        st.sidebar.info(
+            "Rendering documented fallback. "
+            "Wire to `analysis/health.db` once the schema agent lands."
+        )
+    synthesis_view.render(data)
+
 # --------------------------------------------------------------------- Overview
 
-if page == "Overview":
+elif page == "Overview":
     st.title("Health Repo")
     st.caption(
         "Personal health intelligence dashboard — currently at the "
