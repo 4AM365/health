@@ -5,8 +5,8 @@ Reads an AncestryDNA raw export (TSV: rsid, chromosome, position, allele1,
 allele2) and reports genotype + literature-mapped interpretation for a curated
 panel of variants with reasonable evidence for diet/nutrition relevance.
 
-This is a hypothesis-generating tool, not a diagnostic. Each entry carries an
-evidence label; treat low-evidence interpretations as exploratory only.
+Each entry carries an evidence label (A=strong, B=moderate, C=exploratory).
+Hypothesis-generating only -- not a diagnostic.
 
 Usage:
     python scripts/snp_panel.py [path-to-AncestryDNA.txt]
@@ -23,13 +23,7 @@ if hasattr(sys.stdout, "reconfigure"):
 DEFAULT_DNA = Path("w_data/2024 Data/wc-dna-data-2024-05-31/AncestryDNA.txt")
 
 
-# Each panel entry:
-#   rsid, gene, label, evidence (A=strong, B=moderate, C=exploratory),
-#   risk/effect alleles dict mapping genotype-strings to interpretation,
-#   short context note.
-# Genotype keys are sorted-allele strings, e.g. "AG" not "GA".
 PANEL = [
-    # --- Lactase persistence ---
     {
         "rsid": "rs4988235",
         "gene": "LCT/MCM6",
@@ -54,7 +48,6 @@ PANEL = [
         },
         "note": "Tightly linked to rs4988235; should agree.",
     },
-    # --- Folate / one-carbon metabolism ---
     {
         "rsid": "rs1801133",
         "gene": "MTHFR (C677T)",
@@ -65,7 +58,7 @@ PANEL = [
             "AG": "Heterozygous (CT), ~65% activity. Mildly elevated folate needs.",
             "AA": "Homozygous (TT), ~30% activity. Higher need for methylated folate; elevated homocysteine risk if low-folate diet.",
         },
-        "note": "Allele coding: 23andMe/AncestryDNA report on +strand, so C677T appears as G/A. AA = TT functionally.",
+        "note": "Allele coding: 23andMe/AncestryDNA report on +strand, so C677T appears as G/A.",
     },
     {
         "rsid": "rs1801131",
@@ -77,7 +70,7 @@ PANEL = [
             "GT": "Heterozygous (AC).",
             "GG": "Homozygous variant (CC). Mild MTHFR reduction.",
         },
-        "note": "Second MTHFR site. Compound heterozygous with C677T = stronger effect.",
+        "note": "Compound heterozygous with C677T = stronger effect.",
     },
     {
         "rsid": "rs2236225",
@@ -87,7 +80,7 @@ PANEL = [
         "interp": {
             "GG": "Wild type.",
             "AG": "Heterozygous. Slightly increased choline need.",
-            "AA": "Homozygous variant. Higher choline requirement; women homozygous have elevated NTD risk if folate-deficient.",
+            "AA": "Homozygous variant. Higher choline requirement.",
         },
         "note": "Input to Masterjohn choline calculator.",
     },
@@ -99,24 +92,22 @@ PANEL = [
         "interp": {
             "GG": "Wild type. Estrogen-driven PEMT works normally.",
             "AG": "Heterozygous. Mildly reduced endogenous choline synthesis; modestly higher dietary need.",
-            "AA": "Homozygous variant. Substantially reduced PEMT activity; higher dietary choline need (esp. men/post-menopausal women).",
+            "AA": "Homozygous variant. Substantially reduced PEMT activity; higher dietary choline need.",
         },
         "note": "Input to Masterjohn choline calculator.",
     },
-    # --- Caffeine ---
     {
         "rsid": "rs762551",
         "gene": "CYP1A2",
         "label": "Caffeine metabolism rate",
         "evidence": "A",
         "interp": {
-            "AA": "Fast metabolizer (*1A/*1A). Caffeine cleared quickly; can tolerate higher doses.",
-            "AC": "Slow metabolizer. Caffeine cleared more slowly; higher CV risk at high intake.",
-            "CC": "Slow metabolizer. Same as AC; sensitive to caffeine.",
+            "AA": "Fast metabolizer (*1A/*1A). Caffeine cleared quickly.",
+            "AC": "Slow metabolizer. Higher CV risk at high intake.",
+            "CC": "Slow metabolizer. Sensitive to caffeine.",
         },
-        "note": "Slow metabolizers have elevated MI risk at >2-3 cups/day; fast metabolizers may have protective effect from coffee.",
+        "note": "Slow metabolizers have elevated MI risk at >2-3 cups/day.",
     },
-    # --- Alcohol ---
     {
         "rsid": "rs1229984",
         "gene": "ADH1B",
@@ -135,24 +126,23 @@ PANEL = [
         "label": "Acetaldehyde clearance",
         "evidence": "A",
         "interp": {
-            "GG": "Normal ALDH2. Standard acetaldehyde clearance.",
-            "AG": "Reduced ALDH2 ('Asian flush'). Significantly elevated esophageal cancer risk if drinking.",
+            "GG": "Normal ALDH2.",
+            "AG": "Reduced ALDH2 ('Asian flush'). Elevated esophageal cancer risk if drinking.",
             "AA": "Severely deficient. Drinking strongly contraindicated.",
         },
         "note": "Variant essentially absent in non-Asian populations.",
     },
-    # --- APOE (haplotype from rs429358 + rs7412) ---
     {
         "rsid": "rs429358",
         "gene": "APOE (1/2)",
         "label": "APOE haplotype site 1",
         "evidence": "A",
         "interp": {
-            "TT": "Site 1: T/T (corresponds to e2 or e3 here).",
+            "TT": "Site 1: T/T (corresponds to e2 or e3).",
             "CT": "Site 1: C/T (one e4 allele present).",
             "CC": "Site 1: C/C (likely e4/e4).",
         },
-        "note": "Combine with rs7412 to derive e2/e3/e4 haplotype. e4 = increased Alzheimer's & sat-fat sensitivity; e2 = lower LDL, slightly higher TG.",
+        "note": "Combine with rs7412 to derive e2/e3/e4 haplotype.",
     },
     {
         "rsid": "rs7412",
@@ -166,7 +156,6 @@ PANEL = [
         },
         "note": "See APOE_haplotype line below for combined call.",
     },
-    # --- Obesity / metabolic ---
     {
         "rsid": "rs9939609",
         "gene": "FTO",
@@ -177,7 +166,7 @@ PANEL = [
             "AT": "Heterozygous. ~1.2 kg higher BMI on average.",
             "AA": "Homozygous risk. ~3 kg higher BMI on average; satiety dysregulation.",
         },
-        "note": "Effect is modest at population level; lifestyle attenuates risk substantially.",
+        "note": "Lifestyle attenuates risk substantially.",
     },
     {
         "rsid": "rs7903146",
@@ -189,9 +178,8 @@ PANEL = [
             "CT": "Heterozygous. ~1.4x T2D risk.",
             "TT": "Homozygous. ~2x T2D risk; impaired insulin secretion.",
         },
-        "note": "Strongest common T2D variant. Risk modifiable via diet (low glycemic load), exercise, weight.",
+        "note": "Strongest common T2D variant. Risk modifiable.",
     },
-    # --- Fatty acid metabolism ---
     {
         "rsid": "rs174537",
         "gene": "FADS1",
@@ -200,11 +188,10 @@ PANEL = [
         "interp": {
             "GG": "Efficient ALA->EPA/DHA conversion (ancestral hunter-gatherer pattern).",
             "GT": "Intermediate conversion.",
-            "TT": "Slower conversion. Higher direct EPA/DHA need (fatty fish, algae oil).",
+            "TT": "Slower conversion. Higher direct EPA/DHA need.",
         },
         "note": "Selection in agricultural populations favored the T allele.",
     },
-    # --- Iron ---
     {
         "rsid": "rs1800562",
         "gene": "HFE (C282Y)",
@@ -213,9 +200,9 @@ PANEL = [
         "interp": {
             "GG": "Wild type. No C282Y variant.",
             "AG": "Carrier. Mild iron-loading risk.",
-            "AA": "Homozygous. Hereditary hemochromatosis risk; iron overload likely without intervention.",
+            "AA": "Homozygous. Hereditary hemochromatosis risk.",
         },
-        "note": "Highest penetrance HH variant; combined with H63D (rs1799945) increases compound-heterozygote risk.",
+        "note": "Highest penetrance HH variant.",
     },
     {
         "rsid": "rs1799945",
@@ -227,9 +214,8 @@ PANEL = [
             "CG": "Carrier. Mild iron-loading risk.",
             "GG": "Homozygous. Mild iron overload risk.",
         },
-        "note": "Compound heterozygous with C282Y (rs1800562) elevates risk further.",
+        "note": "Compound heterozygous with C282Y elevates risk further.",
     },
-    # --- Vitamin A conversion ---
     {
         "rsid": "rs7501331",
         "gene": "BCMO1",
@@ -238,11 +224,10 @@ PANEL = [
         "interp": {
             "CC": "Wild type. Efficient beta-carotene conversion.",
             "CT": "Heterozygous. ~30% reduced conversion.",
-            "TT": "Homozygous. ~50% reduced conversion; benefits from preformed vitamin A (liver, eggs, dairy).",
+            "TT": "Homozygous. ~50% reduced conversion; benefits from preformed vitamin A.",
         },
         "note": "Relevant if relying on plant carotenoids for vitamin A.",
     },
-    # --- Acetylation / detox ---
     {
         "rsid": "rs1799930",
         "gene": "NAT2 (rs1799930)",
@@ -253,9 +238,8 @@ PANEL = [
             "AG": "Variant. Contributes to slow-acetylator phenotype.",
             "AA": "Variant homozygous. Slow acetylator more likely.",
         },
-        "note": "NAT2 haplotype requires multiple SNPs; this is one tag. Slow acetylators handle aromatic amines (charred meat) less efficiently.",
+        "note": "Slow acetylators handle aromatic amines (charred meat) less efficiently.",
     },
-    # --- Vitamin D receptor ---
     {
         "rsid": "rs2228570",
         "gene": "VDR (FokI)",
@@ -272,7 +256,6 @@ PANEL = [
 
 
 def load_dna(path: Path) -> dict[str, str]:
-    """Returns {rsid: 'AA'-like sorted genotype string}. '--' for no-call."""
     genotypes: dict[str, str] = {}
     with path.open(encoding="utf-8") as f:
         for line in f:
@@ -294,15 +277,12 @@ COMPLEMENT = {"A": "T", "T": "A", "C": "G", "G": "C"}
 
 
 def revcomp_gt(gt: str) -> str:
-    """Reverse-complement a 2-letter sorted genotype string."""
     if not gt or len(gt) != 2 or not all(c in COMPLEMENT for c in gt):
         return gt
     return "".join(sorted(COMPLEMENT[c] for c in gt))
 
 
 def lookup_interp(entry: dict, gt: str) -> tuple[str, str]:
-    """Try direct genotype lookup; if that fails, try reverse-complement.
-    Returns (effective_genotype_used, interpretation_text)."""
     interp = entry["interp"]
     if gt in interp:
         return gt, interp[gt]
@@ -313,19 +293,12 @@ def lookup_interp(entry: dict, gt: str) -> tuple[str, str]:
 
 
 def derive_apoe(rs429358: str | None, rs7412: str | None) -> str:
-    """Combine rs429358 + rs7412 into APOE epsilon haplotype."""
     if not rs429358 or not rs7412:
         return "(insufficient data)"
-    # Per established mapping on +strand:
-    # e2: rs429358=T  rs7412=T
-    # e3: rs429358=T  rs7412=C
-    # e4: rs429358=C  rs7412=C
     s1 = rs429358
     s2 = rs7412
     if "0" in s1 or "0" in s2 or "-" in s1 or "-" in s2:
         return "(no-call)"
-    # Count e4 alleles (rs429358 C count, but only when rs7412 is C at same allele).
-    # Simplified call by genotype pair:
     pair = (s1, s2)
     table = {
         ("TT", "TT"): "e2/e2",
@@ -334,7 +307,6 @@ def derive_apoe(rs429358: str | None, rs7412: str | None) -> str:
         ("CT", "CT"): "e2/e4",
         ("CT", "CC"): "e3/e4",
         ("CC", "CC"): "e4/e4",
-        # Less common but possible:
         ("CT", "TT"): "e2/e4 (atypical)",
     }
     return table.get(pair, f"undetermined ({s1}/{s2})")
@@ -346,7 +318,7 @@ def main() -> None:
     geno = load_dna(dna_path)
     print(f"Loaded {len(geno):,} SNPs.\n")
 
-    print(f"{'evid':<4}  {'rsid':<14}  {'gene':<22}  {'geno':<5}  interpretation")
+    print(f"{'evid':<4}  {'rsid':<14}  {'gene':<22}  {'geno':<22}  interpretation")
     print("-" * 110)
     for entry in PANEL:
         gt = geno.get(entry["rsid"], "(missing)")
@@ -360,7 +332,6 @@ def main() -> None:
             f"{entry['gene']:<22}  {display:<22}  {interp}"
         )
 
-    # APOE combined haplotype
     print()
     apoe = derive_apoe(geno.get("rs429358"), geno.get("rs7412"))
     print(f"APOE_haplotype (derived): {apoe}")
@@ -370,7 +341,6 @@ def main() -> None:
         "e4: ~3-4x AD risk per allele, more LDL response to saturated fat."
     )
 
-    # Notes
     print("\n--- Per-entry notes ---")
     for entry in PANEL:
         gt = geno.get(entry["rsid"], "(missing)")
