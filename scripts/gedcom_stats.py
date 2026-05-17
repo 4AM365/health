@@ -19,7 +19,7 @@ from pathlib import Path
 if hasattr(sys.stdout, "reconfigure"):
     sys.stdout.reconfigure(encoding="utf-8", errors="replace")
 
-DEFAULT_GED = Path("private/craig_gedcom/Craig Family Tree.ged")
+DEFAULT_GED = Path("w_data/craig_gedcom/Craig Family Tree.ged")
 ROOT_INDI = "@I292246897494@"  # William Craig, b. 1995
 
 # Below this birth year, Ancestry tree dates routinely contain errors
@@ -29,7 +29,7 @@ RELIABLE_BIRTH_YEAR = 1700
 # Rough "top-decile adult-survivor age at death" by birth era. Approximations
 # from historical demography (Wrigley/Schofield for England; Italian regional
 # data; HMD for 20th-century onward). Used only as a sanity threshold for
-# "exceptional longevity" — not a precise percentile.
+# "exceptional longevity" -- not a precise percentile.
 ERA_LONGEVITY_THRESHOLD = [
     (1600, 80),
     (1700, 82),
@@ -187,7 +187,7 @@ def dedupe_ancestors(
     ancestor_xrefs: list[str], indis: dict[str, Individual]
 ) -> list[Individual]:
     """Collapse duplicate INDI records into a single canonical individual,
-    preferring the record with the most data (longest name + has dates)."""
+    preferring the record with the most data."""
     by_key: dict[tuple, Individual] = {}
     for x in ancestor_xrefs:
         i = indis.get(x)
@@ -200,7 +200,7 @@ def dedupe_ancestors(
         if existing is None:
             by_key[k] = i
             continue
-        # Pick the more-complete record
+
         def score(p: Individual) -> int:
             return (
                 (1 if p.birth_year else 0)
@@ -215,7 +215,6 @@ def dedupe_ancestors(
 
 
 def era_threshold(birth_year: int) -> int:
-    """Threshold age for 'exceptional longevity' given birth era."""
     threshold = ERA_LONGEVITY_THRESHOLD[0][1]
     for year, t in ERA_LONGEVITY_THRESHOLD:
         if birth_year >= year:
@@ -254,9 +253,8 @@ def main() -> None:
     raw_xrefs = list(ancestor_map.keys())
     deduped = dedupe_ancestors(raw_xrefs, indis)
     print(f"Raw direct ancestors:     {len(raw_xrefs) - 1}")
-    print(f"After dedup (same person via duplicate INDI records): {len(deduped) - 1}")
+    print(f"After dedup: {len(deduped) - 1}")
 
-    # Generation breakdown (raw, pre-dedup)
     gen_counts: Counter[int] = Counter()
     for g in ancestor_map.values():
         gen_counts[g] += 1
@@ -265,7 +263,6 @@ def main() -> None:
         expected = 2**g if g > 0 else 1
         print(f"  gen {g:2d}: {gen_counts[g]:4d} / {expected}")
 
-    # Ancestral geography (deduped)
     countries: Counter[str] = Counter()
     full_places: Counter[str] = Counter()
     surnames: Counter[str] = Counter()
@@ -291,9 +288,7 @@ def main() -> None:
     for n, c in full_places.most_common(15):
         print(f"  {c:3d}  {n}")
 
-    # Longevity (deduped, era-adjusted)
     aged: list[tuple[int, int, str, str, int, str]] = []
-    # (age, era_threshold, name, birth_place, birth_year, surname)
     for i in deduped:
         if not (i.birth_year and i.death_year):
             continue
@@ -306,18 +301,16 @@ def main() -> None:
         aged.append((age, thr, i.name, i.birth_place, i.birth_year, i.surname))
 
     print(f"\n--- Direct-ancestor longevity (deduped, reliable post-{RELIABLE_BIRTH_YEAR}, n={len(aged)}) ---")
-
     for thresh in (80, 85, 90, 95, 100):
         c = sum(1 for age, *_ in aged if age >= thresh)
         print(f"  >={thresh}:  {c}")
 
-    # Era-adjusted superstars: above their birth era's top-decile threshold
     superstars = sorted(
         ((age, thr, name, place, by, sur) for age, thr, name, place, by, sur in aged if age >= thr),
         key=lambda t: (t[0] - t[1]),
         reverse=True,
     )
-    print(f"\nEra-adjusted longevity superstars (age >= era top-decile threshold), n={len(superstars)}:")
+    print(f"\nEra-adjusted longevity superstars, n={len(superstars)}:")
     print(f"  {'age':>3}  {'+era':>4}  {'born':>4}  {'surname':<14}  {'name':<32}  {'place'}")
     for age, thr, name, place, by, sur in superstars[:40]:
         plus = age - thr
@@ -326,7 +319,6 @@ def main() -> None:
         name_s = safe(name)[:32]
         print(f"  {age:3d}  {plus:+4d}  {by:4d}  {sur_s:<14}  {name_s:<32}  {place_short}")
 
-    # Geographic breakdown of superstars
     print("\nSuperstars grouped by ancestral cluster:")
     cluster_buckets: dict[str, list[tuple[int, int, str, int]]] = defaultdict(list)
     for age, thr, name, place, by, _ in superstars:
@@ -364,21 +356,6 @@ def main() -> None:
         print(f"\n  {bucket}: n={len(members)}, mean age={avg:.1f}")
         for age, plus, name, by in sorted(members, reverse=True):
             print(f"    {age:3d}y ({plus:+d} vs era)  b.{by}  {safe(name)}")
-
-    # Ialenti/Yalenty deep list (deduped)
-    print("\n--- Ialenti/Yalenty individuals (full tree, deduped) ---")
-    italian_records = {}
-    for i in indis.values():
-        if i.surname.lower() in ("ialenti", "yalenty"):
-            k = identity_key(i)
-            existing = italian_records.get(k)
-            if existing is None or (i.birth_year and i.death_year and not (existing.birth_year and existing.death_year)):
-                italian_records[k] = i
-    for i in sorted(italian_records.values(), key=lambda x: (x.birth_year or 9999)):
-        by = i.birth_year or "?"
-        dy = i.death_year or "?"
-        ageS = f" ({i.death_year - i.birth_year}y)" if i.birth_year and i.death_year else ""
-        print(f"  b.{by} d.{dy}{ageS}  {safe(i.name)}  [{i.birth_place}]")
 
 
 if __name__ == "__main__":
