@@ -1,0 +1,164 @@
+# Curated SNP panel for the dashboard.
+#
+# Per CLAUDE.md s8 + AGENTS.md privacy rules: we load ONLY this curated panel
+# into the snps table, NOT all ~700k AncestryDNA rows. SQLite query speed
+# matters, and there is no analytic reason to keep the long tail.
+#
+# Schema for each entry:
+#   rsid:        the rsID
+#   gene:        gene symbol (free-text; informational only)
+#   category:    one of {folate, choline, caffeine, alcohol, lipids,
+#                metabolic, fatty_acids, iron, vitamin_a, detox,
+#                vitamin_d, cardiovascular, lactose}
+#   evidence:    A=strong, B=moderate, C=exploratory
+#   why_we_care: one short line, surfaced in the dashboard
+#
+# This file is read by ingest/genome/parse_ancestry.py. Adding an rsid here
+# is the single-source-of-truth way to extend the panel; no code changes
+# needed.
+
+panel:
+  # Lactase persistence
+  - rsid: rs4988235
+    gene: LCT/MCM6
+    category: lactose
+    evidence: A
+    why_we_care: Adult dairy tolerance; strongest known gene-diet selection.
+
+  - rsid: rs182549
+    gene: MCM6
+    category: lactose
+    evidence: A
+    why_we_care: Corroborating LCT variant; should agree with rs4988235.
+
+  # Folate / one-carbon metabolism
+  - rsid: rs1801133
+    gene: MTHFR
+    category: folate
+    evidence: A
+    why_we_care: MTHFR C677T. TT (~30% activity) raises methylfolate / choline need.
+
+  - rsid: rs1801131
+    gene: MTHFR
+    category: folate
+    evidence: B
+    why_we_care: MTHFR A1298C. Compound het with C677T = stronger effect.
+
+  - rsid: rs2236225
+    gene: MTHFD1
+    category: folate
+    evidence: B
+    why_we_care: G1958A. Variant raises choline need; input to Masterjohn calc.
+
+  - rsid: rs1051266
+    gene: SLC19A1
+    category: folate
+    evidence: B
+    why_we_care: Folate transporter. T allele lowers transport efficiency.
+
+  # Choline / phosphatidylcholine
+  - rsid: rs7946
+    gene: PEMT
+    category: choline
+    evidence: B
+    why_we_care: Endogenous choline synthesis. AA reduces PEMT; raises dietary need.
+
+  # Caffeine
+  - rsid: rs762551
+    gene: CYP1A2
+    category: caffeine
+    evidence: A
+    why_we_care: Fast/slow caffeine metabolizer; slow = elevated CV risk at high intake.
+
+  # Alcohol
+  - rsid: rs1229984
+    gene: ADH1B
+    category: alcohol
+    evidence: A
+    why_we_care: Alcohol oxidation rate. A allele = faster, flush, protective.
+
+  - rsid: rs671
+    gene: ALDH2
+    category: alcohol
+    evidence: A
+    why_we_care: Acetaldehyde clearance. Asian flush variant; elevated esophageal Ca.
+
+  # Lipids / Alzheimer's (APOE haplotype)
+  - rsid: rs429358
+    gene: APOE
+    category: lipids
+    evidence: A
+    why_we_care: APOE haplotype site 1. With rs7412 determines e2/e3/e4.
+
+  - rsid: rs7412
+    gene: APOE
+    category: lipids
+    evidence: A
+    why_we_care: APOE haplotype site 2. e4 = LDL/AD risk; e2 = lower LDL.
+
+  # Obesity / metabolic
+  - rsid: rs9939609
+    gene: FTO
+    category: metabolic
+    evidence: A
+    why_we_care: BMI / satiety variant. AA = ~3 kg higher BMI on average.
+
+  - rsid: rs7903146
+    gene: TCF7L2
+    category: metabolic
+    evidence: A
+    why_we_care: Strongest common T2D variant. TT = ~2x T2D risk.
+
+  # Fatty acid metabolism
+  - rsid: rs174537
+    gene: FADS1
+    category: fatty_acids
+    evidence: B
+    why_we_care: ALA -> EPA/DHA conversion. T allele = slower; needs direct EPA/DHA.
+
+  # Iron
+  - rsid: rs1800562
+    gene: HFE
+    category: iron
+    evidence: A
+    why_we_care: HFE C282Y. Highest-penetrance hereditary hemochromatosis variant.
+
+  - rsid: rs1799945
+    gene: HFE
+    category: iron
+    evidence: B
+    why_we_care: HFE H63D. Compound het with C282Y elevates iron-loading risk.
+
+  # Vitamin A conversion
+  - rsid: rs7501331
+    gene: BCMO1
+    category: vitamin_a
+    evidence: B
+    why_we_care: Beta-carotene -> retinol conversion. TT = ~50% reduced.
+
+  # Acetylation / detox
+  - rsid: rs1799930
+    gene: NAT2
+    category: detox
+    evidence: B
+    why_we_care: One tag SNP for slow-acetylator phenotype (charred meat handling).
+
+  # Vitamin D receptor
+  - rsid: rs2228570
+    gene: VDR
+    category: vitamin_d
+    evidence: C
+    why_we_care: VDR FokI variant. Mixed evidence; vitamin D status matters more.
+
+  # 9p21 cardiovascular locus (CDKN2B-AS1)
+  - rsid: rs10757278
+    gene: CDKN2B-AS1
+    category: cardiovascular
+    evidence: A
+    why_we_care: 9p21 locus. G allele raises CAD/MI risk modestly.
+
+  - rsid: rs1333049
+    gene: CDKN2B-AS1
+    category: cardiovascular
+    evidence: A
+    why_we_care: 9p21 locus, second tag. C allele raises CAD risk.
