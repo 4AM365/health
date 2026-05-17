@@ -1,11 +1,23 @@
 # Private / sensitive data — never commit.
 # private/ holds pedigree with living minors and other non-consenting third parties.
-# analysis/ holds derived artifacts (health.db, exports, generated reports).
 private/
-analysis/
+
+# analysis/ holds derived artifacts (health.db, exports, generated reports).
+# Ignore everything under it EXCEPT analysis/calculators/ which holds the
+# YAML configuration that drives Pattern C (VISION.md §3, gene-adjusted
+# nutrient targets). Those YAMLs are source-of-truth, not derived artifacts.
+analysis/*
+!analysis/calculators/
+analysis/calculators/__pycache__/
+
 *.db
 *.sqlite
 *.sqlite3
+
+# Python bytecode
+__pycache__/
+*.pyc
+.pytest_cache/
 
 # Editor / OS noise
 .DS_Store
