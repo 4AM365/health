@@ -1,0 +1,22 @@
+# Gene-adjusted choline RDI per Masterjohn's calculator + VISION.md §3.
+# Base 550 mg (male) / 425 mg (female). Each effect allele adds increment_mg.
+# A TT homozygote on a T-effect SNP adds 2 * increment_mg.
+#
+# Source notes: PEMT rs7946 affects phosphatidylethanolamine N-methyltransferase
+# (endogenous choline synthesis); CHDH rs12325817 affects choline dehydrogenase.
+# These are the two most-cited SNPs in Masterjohn's online calc. The full
+# Masterjohn panel is larger; add more entries as you learn them.
+
+nutrient: choline_mg
+base_rdi: 550
+sex_modifier:
+  female: 425
+  male: 550
+snps:
+  - rsid: rs7946        # PEMT
+    effect_allele: T
+    increment_mg: 50
+  - rsid: rs12325817    # CHDH
+    effect_allele: G
+    increment_mg: 100
+output_field: choline_target_mg

@@ -1,0 +1,19 @@
+# Folate target adjustment per MTHFR genotype.
+# Base 400 mcg. MTHFR rs1801133 (C677T) and rs1801131 (A1298C) reduce
+# enzymatic activity ~30-70% for homozygotes; the conservative response
+# is a higher folate target (or shift to methylfolate; that recommendation
+# is a *note*, not encoded here).
+#
+# Increment values here are rough; the LLM narrative should explain that
+# "discuss with provider" applies before changing supplements.
+
+nutrient: folate_mcg
+base_rdi: 400
+snps:
+  - rsid: rs1801133     # MTHFR C677T — T is the reduced-activity allele
+    effect_allele: T
+    increment_mg: 100   # 100 mcg per T allele
+  - rsid: rs1801131     # MTHFR A1298C — C is the reduced-activity allele
+    effect_allele: C
+    increment_mg: 50
+output_field: folate_target_mcg
