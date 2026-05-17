@@ -14,22 +14,12 @@ analysis/calculators/__pycache__/
 *.sqlite
 *.sqlite3
 
-<<<<<<< HEAD
-# Python noise
-__pycache__/
-*.pyc
-=======
 # Python bytecode
 __pycache__/
 *.pyc
 .pytest_cache/
->>>>>>> origin/agent/dashboard
 
 # Editor / OS noise
 .DS_Store
 Thumbs.db
 *.swp
-
-# Python bytecode
-__pycache__/
-*.pyc
